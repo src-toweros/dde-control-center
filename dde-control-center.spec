@@ -10,16 +10,12 @@ Source0:        %{name}_%{version}-%{release_name}.orig.tar.xz
 Source1:        locale.gen
 Source2:        locale-gen
 
-#BuildRequires:  dtkcore-devel >= 5.1.1
 BuildRequires:  gcc-c++
 BuildRequires:  desktop-file-utils
 BuildRequires:  dde-dock-devel
 BuildRequires:  pkgconfig(dde-network-utils)
-#BuildRequires:  pkgconfig(dtkwidget) >= 5.1
 BuildRequires:  dtkwidget-devel
 BuildRequires:  dtkgui-devel dtkcore-devel
-#BuildRequires:  pkgconfig(dtkwidget2)
-#BuildRequires:  pkgconfig(dframeworkdbus) >= 2.0
 BuildRequires:  dde-qt-dbus-factory-devel
 BuildRequires:  pkgconfig(gsettings-qt)
 BuildRequires:  pkgconfig(geoip)
@@ -68,11 +64,7 @@ sed -i -E '/add_compile_definitions/d' CMakeLists.txt
 
 %install
 %make_install INSTALL_ROOT=%{buildroot}
-# place holder plugins dir
 mkdir -p %{buildroot}%{_libdir}/%{name}/plugins
-# https://github.com/linuxdeepin/dde-control-center/issues/115
-# And we disabled SYS_UPDATE, so reboot-reminder-dialog is useless.
-#rm %{buildroot}%{_bindir}/reboot-reminder-dialog
 mkdir -p %{buildroot}/usr/lib64/cmake/DdeControlCenter
 mv %{buildroot}/cmake/DdeControlCenter/DdeControlCenterConfig.cmake %{buildroot}/usr/lib64/cmake/DdeControlCenter
 mv %{buildroot}/usr/lib/libdccwidgets.so %{buildroot}%{_libdir}/
@@ -114,6 +106,9 @@ fi
 %{_libdir}/cmake/DdeControlCenter/
 
 %changelog
+* Thu Jul 30 2020 openEuler Buildteam <buildteam@openeuler.org> - 5.1.0.19-3
+- fix spec
+
 * Fri Jul  3 2020 uniontech <uoser@uniontech.com> - 5.1.0.19-2
 - Add dde.sh to profile.d
 
