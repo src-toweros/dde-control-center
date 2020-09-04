@@ -2,7 +2,7 @@
 
 Name:           dde-control-center
 Version:        5.1.0.19
-Release:        2
+Release:        3
 Summary:        New control center for Linux Deepin
 License:        GPLv3
 URL:            https://uos-packages.deepin.com/uos/pool/main/d/dde-control-center/
@@ -33,6 +33,7 @@ BuildRequires:  kf5-networkmanager-qt-devel
 BuildRequires:  udisks2-qt5-devel
 BuildRequires:  qt5-linguist
 BuildRequires:  cmake
+BuildRequires:  libXext-devel
 Requires:       dde-account-faces
 Requires:       dde-api
 Requires:       dde-daemon
@@ -106,8 +107,8 @@ fi
 %{_libdir}/cmake/DdeControlCenter/
 
 %changelog
-* Thu Jul 30 2020 openEuler Buildteam <buildteam@openeuler.org> - 5.1.0.19-3
-- fix spec
+* Fri Sep 4 2020 chenbo pan <panchenbo@uniontech.com> 5.1.0.19-3
+- fix compile fail
 
 * Fri Jul  3 2020 uniontech <uoser@uniontech.com> - 5.1.0.19-2
 - Add dde.sh to profile.d
