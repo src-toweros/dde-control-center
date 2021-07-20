@@ -1,14 +1,10 @@
-%global release_name server-industry-20200613
-
 Name:           dde-control-center
-Version:        5.1.0.19
-Release:        3
+Version:        5.3.0.54.4
+Release:        1
 Summary:        New control center for Linux Deepin
 License:        GPLv3
-URL:            https://uos-packages.deepin.com/uos/pool/main/d/dde-control-center/
-Source0:        %{name}_%{version}-%{release_name}.orig.tar.xz
-Source1:        locale.gen
-Source2:        locale-gen
+URL:            https://github.com/linuxdeepin/%{name}
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  desktop-file-utils
@@ -20,20 +16,14 @@ BuildRequires:  dde-qt-dbus-factory-devel
 BuildRequires:  pkgconfig(gsettings-qt)
 BuildRequires:  pkgconfig(geoip)
 BuildRequires:  pkgconfig(libnm)
-BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Concurrent)
-BuildRequires:  pkgconfig(Qt5DBus)
-BuildRequires:  pkgconfig(Qt5Multimedia)
-BuildRequires:  pkgconfig(Qt5Svg)
-BuildRequires:  pkgconfig(Qt5Sql)
-BuildRequires:  pkgconfig(Qt5Xml)
-BuildRequires:  pkgconfig(Qt5X11Extras)
+BuildRequires:  libpwquality-devel
+BuildRequires:  qt5-devel
 BuildRequires:  pkgconfig(xcb-ewmh)
 BuildRequires:  kf5-networkmanager-qt-devel
 BuildRequires:  udisks2-qt5-devel
 BuildRequires:  qt5-linguist
 BuildRequires:  cmake
-BuildRequires:  libXext-devel
+BuildRequires:  libXext-devel 
 Requires:       dde-account-faces
 Requires:       dde-api
 Requires:       dde-daemon
@@ -53,9 +43,8 @@ BuildArch:      noarch
 %{summary}.
 
 %prep
-%setup -q -n %{name}-%{version}-%{release_name}
+%setup -q -n %{name}-%{version}
 sed -i 's|lrelease|lrelease-qt5|' translate_generation.sh
-sed -i '/%{name}/s|\.\./lib|%{_libdir}|' src/frame/pluginscontroller.cpp
 sed -i -E '/add_compile_definitions/d' CMakeLists.txt
 
 %build
@@ -70,25 +59,11 @@ mkdir -p %{buildroot}/usr/lib64/cmake/DdeControlCenter
 mv %{buildroot}/cmake/DdeControlCenter/DdeControlCenterConfig.cmake %{buildroot}/usr/lib64/cmake/DdeControlCenter
 mv %{buildroot}/usr/lib/libdccwidgets.so %{buildroot}%{_libdir}/
 install -Dm644 com.deepin.controlcenter.addomain.policy %{buildroot}%{_datadir}/polkit-1/actions/
-install -Dm644 %{_sourcedir}/locale.gen %{buildroot}%{_sysconfdir}/locale.gen
-install -Dm755 %{_sourcedir}/locale-gen %{buildroot}/sbin/locale-gen
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
 
 %ldconfig_scriptlets
-
-%post
-if [ $1 -ge 1 ]; then
-   mkdir -p  /etc/profile.d
-   echo '[ -f $HOME/.config/locale.conf ] && source $HOME/.config/locale.conf  > /dev/null 2>&1 || return 0' > /etc/profile.d/dde.sh
-   chmod 644 /etc/profile.d/dde.sh
-fi
-
-%postun
-if [ $1 -eq 0 ]; then
-   rm -f /etc/profile.d/dde.sh
-fi
 
 %files
 %doc README.md
@@ -97,8 +72,6 @@ fi
 %{_bindir}/abrecovery
 %{_bindir}/dde-control-center
 %{_datadir}/
-/bin/restore-tool
-/sbin/locale-gen
 %{_libdir}/libdccwidgets.so
 /etc/xdg/autostart/deepin-ab-recovery.desktop
 
@@ -107,6 +80,9 @@ fi
 %{_libdir}/cmake/DdeControlCenter/
 
 %changelog
+* Wed Jul 07 2021 weidong <weidong@uniontech.com> - 5.3.0.54.4-1
+- Update 5.3.0.54.4
+
 * Fri Sep 4 2020 chenbo pan <panchenbo@uniontech.com> 5.1.0.19-3
 - fix compile fail
 
