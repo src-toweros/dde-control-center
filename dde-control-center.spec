@@ -83,8 +83,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
 * Wed Jul 07 2021 weidong <weidong@uniontech.com> - 5.3.0.54.4-1
 - Update 5.3.0.54.4
 
-* Thu Jul 30 2020 openEuler Buildteam <buildteam@openeuler.org> - 5.1.0.19-3
-- fix spec
+* Fri Sep 4 2020 chenbo pan <panchenbo@uniontech.com> 5.1.0.19-3
+- fix compile fail
 
 * Fri Jul  3 2020 uniontech <uoser@uniontech.com> - 5.1.0.19-2
 - Add dde.sh to profile.d
